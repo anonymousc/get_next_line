@@ -6,7 +6,7 @@
 /*   By: aessadik <aessadik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 22:09:14 by aessadik          #+#    #+#             */
-/*   Updated: 2024/02/02 06:23:48 by aessadik         ###   ########.fr       */
+/*   Updated: 2024/02/08 17:06:08 by aessadik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ char	*ft_strjoin(char *s1, char *s2)
 	size_t	l1;
 	size_t	l2;
 
-	if (!(s1 || s2))
-		return (NULL);
+	//if (!(s1 || s2))
+		//return (NULL);
 	l1 = ft_strlen(s1);
 	l2 = ft_strlen(s2);
 	p = (char *)malloc(l1 + l2 + 1);
