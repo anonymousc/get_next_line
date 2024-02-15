@@ -6,32 +6,24 @@
 /*   By: aessadik <aessadik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 22:09:14 by aessadik          #+#    #+#             */
-/*   Updated: 2024/02/08 17:06:08 by aessadik         ###   ########.fr       */
+/*   Updated: 2024/02/15 01:58:29 by aessadik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+char	*read_file(int fd)
 {
-	unsigned char	*tmpdst;
-	unsigned char	*tmpsrc;
-	unsigned int	index;
-
-	index = 0;
-	if (dst == src)
-		return (dst);
-	if (src == 0 && dst == 0)
-		return (0);
-	tmpdst = (unsigned char *)dst;
-	tmpsrc = (unsigned char *)src;
-	while (index < n)
+	char *str;
+	if(!(str))
+		return (NULL);
+	while(*str != '\n')
 	{
-		tmpdst[index] = tmpsrc[index];
-		index++;
-	}
-	return (dst);
+		read(fd, str, BUFFER_SIZE);
+		str++;
+	}	
+	return (str);	
 }
 size_t	ft_strlen(char *s)
 {
@@ -44,23 +36,25 @@ size_t	ft_strlen(char *s)
 		i++;
 	return (i);
 }
-char	*ft_strjoin(char *s1, char *s2)
+char *ft_strjoin(char *s, char *s1)
 {
-	char	*p;
-	size_t	l1;
-	size_t	l2;
-
-	//if (!(s1 || s2))
-		//return (NULL);
-	l1 = ft_strlen(s1);
-	l2 = ft_strlen(s2);
-	p = (char *)malloc(l1 + l2 + 1);
-	if (!p)
-		return (NULL);
-	ft_memcpy(p, s1, l1);
-	ft_memcpy((p + l1), s2, l2);
-	p[l1 + l2] = '\0';
-	return (p);
+    char *p;
+    int  i = 0;
+    int j = 0;
+    int total = ft_strlen(s) + ft_strlen(s1) + 1;
+    p = (char *)malloc(total);
+    while (s[i])
+    {
+        p[i] = s[i]; 
+        i++;
+    }
+    while (s1[j])
+    {
+        p[i + j] = s1[j];
+        j++;
+    }
+    p[i + j] = '\0';
+    return(p);
 }
 char	*ft_strchr(char *s, int c)
 {
