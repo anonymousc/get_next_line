@@ -6,72 +6,90 @@
 /*   By: aessadik <aessadik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 22:09:14 by aessadik          #+#    #+#             */
-/*   Updated: 2024/02/15 01:58:29 by aessadik         ###   ########.fr       */
+/*   Updated: 2024/02/17 03:50:07 by aessadik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <string.h>
 
-
-char	*read_file(int fd)
-{
-	char *str;
-	if(!(str))
-		return (NULL);
-	while(*str != '\n')
-	{
-		read(fd, str, BUFFER_SIZE);
-		str++;
-	}	
-	return (str);	
-}
 size_t	ft_strlen(char *s)
 {
 	size_t	i;
 
 	i = 0;
-	if (!s || *s != '\0')
+	if (!s)
 		return (0);
 	while (s[i])
 		i++;
 	return (i);
+	
 }
 char *ft_strjoin(char *s, char *s1)
 {
     char *p;
+	char *str;
     int  i = 0;
-    int j = 0;
-    int total = ft_strlen(s) + ft_strlen(s1) + 1;
-    p = (char *)malloc(total);
-    while (s[i])
-    {
-        p[i] = s[i]; 
-        i++;
-    }
-    while (s1[j])
-    {
-        p[i + j] = s1[j];
-        j++;
-    }
-    p[i + j] = '\0';
-    return(p);
+	
+    if (!s && !s1)
+		return (NULL);
+    p = (char *)malloc(ft_strlen(s) + ft_strlen(s1) + 1);
+	if (!p)
+		return (NULL);
+	str = p;
+	if (s)
+		while (s[i])
+			*(p++) = s[i++];
+	i = 0;
+	if (s1)
+    	while (s1[i])
+    	    *(p++) = s1[i++];
+
+    return(str);
 }
-char	*ft_strchr(char *s, int c)
+char	*ft_strchr(char *s)
 {
 	int	index;
 	int	len;
+	char *line;
 
 	if (!s)
-		return (NULL);
+		return (0);
 	index = 0;
 	len = ft_strlen(s);
-	while (index <= len)
+	line = malloc(len + 1);
+	if (!line)
+		return (0);
+	while (index < len && s[index] != '\n')
 	{
-		if (s[index] == (unsigned char)c)
-			return ((char *)(&s[index]));
+		line[index] = s[index];
 		index++;
 	}
+	if (s[index] == '\n')
+	{
+		line[index] = s[index];
+		return (line);
+	}
 	return (0);
+}
+char	*ft_strrchr(char *s)
+{
+	int				i;
+	unsigned char	*s1;
+
+	i = ft_strlen(s);
+	s1 = (unsigned char *)s;
+	while (i >= 0)
+	{
+		if (s1[i] == '\n')
+			return ((char *)(s1 + i));
+		i--;
+	}
+	return (NULL);
 }
 // char	*get_first_line(char *next_line)
 // {
@@ -128,3 +146,17 @@ char	*ft_strchr(char *s, int c)
 // 	free(str);
 // 	return (new_line);
 // }
+
+int	find_newline(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\n')
+			return (i++,i);
+		i++;
+	}
+	return (-1);
+}

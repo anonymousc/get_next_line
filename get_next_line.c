@@ -6,7 +6,7 @@
 /*   By: aessadik <aessadik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 21:30:35 by aessadik          #+#    #+#             */
-/*   Updated: 2024/02/15 02:08:52 by aessadik         ###   ########.fr       */
+/*   Updated: 2024/02/17 19:59:40 by aessadik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,44 +14,68 @@
 
 #include "get_next_line.h"
 #include <fcntl.h>
-
-char *get(char *s)
-{
-	int i;
-
-	i = 0;
-	while (s[i])
-	{
-		i++;
-	}
-	return (s);
-}
 char	*get_next_line(int fd)
 {
-	static char	*ret;
-	char 	*tmp;
-	//char 	*stash;
+	char	*buffer = 0;
+	char	*return_line = 0;
+	static char	*ret = 0;
+	char 	*line_total = 0;
 	int		i;
-	i = 0;
-	ret = (char *)malloc(BUFFER_SIZE + 1);
-	if (ret == NULL)
-	 	return (NULL);
-	i = read(fd, ret, BUFFER_SIZE);
-	tmp = ret;
-	while (*ret != '\n')
+	i = 1;
+	
+	while (i > 0)
 	{
-		ret = calloc(BUFFER_SIZE + 1, sizeof(char));
-		tmp = ft_strjoin(tmp, ret);
-		ret++;
+		buffer = (char *)malloc(BUFFER_SIZE  * sizeof(char) + 1);
+		if (!buffer)
+			return (0);
+		i = read(fd, buffer, BUFFER_SIZE);
+		line_total = ft_strjoin(line_total, buffer);
+		if (find_newline(buffer) != -1)
+			break;
+		free(buffer);
 	}
-	return (tmp);
+	return_line = ft_strchr(line_total);
+	ret = ft_strrchr(line_total);
+	return (line_total);
 }
 
+// int	find_newline(char *str)
+// {
+// 	int i;
 
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == '\n')
+// 			return (i);
+// 		i++;
+// 	}
+// 	return (-1);
+// }
 int	main(void)
 {
 	int fd = open("t.txt", O_RDONLY);
-	char *s = get_next_line(fd);
-	printf("%s", s);
+	//get_next_line(fd);
+	// printf("%s",get_next_line(fd));
+	// printf("%s",get_next_line(fd));
+	// printf("%s",get_next_line(fd));
+	// printf("%s",get_next_line(fd));
+	// printf("%s",get_next_line(fd));
+	// char *s = get_next_line(fd);
+
+	int i = 0 ;
+	while(i < 6)
+	{
+		 char  *s = get_next_line(fd);
+		printf("%s", s);
+		i++;
+	}
+	// printf("%s", s);
 	return (0);		
 }
+
+// 0123456789
+// 012345
+
+// ret = 01234
+// ret 
