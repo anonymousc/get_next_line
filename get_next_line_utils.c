@@ -6,7 +6,7 @@
 /*   By: aessadik <aessadik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 22:09:14 by aessadik          #+#    #+#             */
-/*   Updated: 2024/02/17 23:56:33 by aessadik         ###   ########.fr       */
+/*   Updated: 2024/02/25 14:18:02 by aessadik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,11 @@ char	*ft_strjoin(char *s, char *s1)
 		return (NULL);
 	p = (char *)malloc(ft_strlen(s) + ft_strlen(s1) + 1);
 	if (!p)
+	{
+		free(s);
 		return (NULL);
+	}
+	// printf("p: %p\n", p);
 	p[ft_strlen(s) + ft_strlen(s1)] = '\0';
 	str = p;
 	if (s)
@@ -48,6 +52,8 @@ char	*ft_strjoin(char *s, char *s1)
 	if (s1)
 		while (s1[i])
 			*(p++) = s1[i++];
+			if (s)
+				free(s);
 	return (str);
 }
 
@@ -57,9 +63,10 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	size_t	i;
 
 	i = 0;
-	p = (char *)malloc(len + 1);
+	p = (char *)malloc(sizeof(char) * (len + 1));
 	if (!p)
 		return (NULL);
+	// printf("p: %p\n", p);
 	while (i < len && s[start + i])
 	{
 		p[i] = s[start + i];
@@ -71,7 +78,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 
 char	*get_new_line(char *s)
 {
-	char	*line;
+	//char	*line;
 	int		len;
 
 	len = 0;
@@ -80,9 +87,9 @@ char	*get_new_line(char *s)
 	while (s[len] && s[len] != '\n')
 		len++;
 	len += (s[len] == '\n');
-	line = (char *)malloc(len + 1);
-	if (!line)
-		return (NULL);
+	// line = malloc(sizeof(char) * (len + 1));
+	// if (!line)
+	// 	return (NULL);
 	return (ft_substr(s, 0, len));
 }
 
@@ -92,9 +99,16 @@ char	*ft_strdup(const char *s1)
 	int		i;
 
 	i = 0;
+	if (!s1)
+	{
+		return (NULL);
+	}
 	str = (char *)malloc(ft_strlen((char *)s1) + 1);
 	if (!str)
+	{
+		free(str);	
 		return (NULL);
+	}
 	while (s1[i])
 	{
 		str[i] = s1[i];
