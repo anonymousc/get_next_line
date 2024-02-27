@@ -6,7 +6,7 @@
 /*   By: aessadik <aessadik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 21:30:35 by aessadik          #+#    #+#             */
-/*   Updated: 2024/02/25 14:23:24 by aessadik         ###   ########.fr       */
+/*   Updated: 2024/02/27 16:39:59 by aessadik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,77 +29,61 @@ int	find_newline(char *str)
 
 char	*set_buffer(char *buffer, char *line)
 {
-	int		len;
 	int		len2;
 	char	*tmp;
 
-	// len = ft_strlen(buffer);
 	len2 = ft_strlen(line);
 	tmp = ft_strdup(buffer + len2);
 	free(buffer);
-	// buffer = ft_strdup(tmp);
-	// free(tmp);
 	return (tmp);
+}
+
+char	*ft_freea(char *s)
+{
+	if (!s)
+	{
+		printf("Error\n");
+		s = NULL;
+		free(s);
+	}
+	return (NULL);
+}
+
+char	*ft_free(char *s)
+{
+	if (s)
+	{
+		s = NULL;
+		free(s);
+	}
+	return (NULL);
 }
 
 char	*get_next_line(int fd)
 {
 	char		*buffer;
-	char		*return_line;
+	char		*ret_l;
 	static char	*ret;
 	int			i;
 
 	i = 1;
-	return_line = 0;
-	if (fd <= -1 || BUFFER_SIZE <= 0)
-		return (0);
+	if (fd <= -1 || BUFFER_SIZE <= 0 || BUFFER_SIZE > 2147483647)
+		return (free(ret), NULL);
 	while (i > 0)
 	{
 		buffer = (char *)malloc(BUFFER_SIZE * sizeof(char) + 1);
-		if (!buffer)
-			return (0);
+		ft_freea(buffer);
 		i = read(fd, buffer, BUFFER_SIZE);
 		if (i == -1)
-		{
-			free (buffer);
-			if (ret)
-				free (ret);
-			return (NULL);
-			
-		}
+			return (ft_free(ret), free(buffer), NULL);
 		buffer[i] = '\0';
 		ret = ft_strjoin(ret, buffer);
 		if (find_newline(buffer) != -1)
+		{
+			free(buffer);
 			break ;
+		}
 		free(buffer);
 	}
-	return_line = get_new_line(ret);
-	ret = set_buffer(ret, return_line);
-	// printf("ret = %p\n", ret);
-	// printf("return_line = %p\n", return_line);
-	// printf("buffer = %p\n", buffer);
-	return (return_line);
-}
-
-int ft_e(char *str)
-{
-	int fd;
-	char *line;
-
-	int i = 0;
-	fd = open(str, O_RDONLY);
-	while (i < 10)
-	{
-		line = get_next_line(fd);
-		printf("%s\n", line);
-		free(line);
-		i++;
-	}
-	// free(line);
-	return (0);
-}
-int main(int ac, char **av)
-{
-	ft_e(av[1]);
-	system("leaks a.out");
+	return (ret_l = get_new_line(ret), ret = set_buffer(ret, ret_l), ret_l);
 }
