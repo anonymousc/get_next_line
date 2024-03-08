@@ -6,7 +6,7 @@
 /*   By: aessadik <aessadik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 22:09:14 by aessadik          #+#    #+#             */
-/*   Updated: 2024/02/27 16:44:35 by aessadik         ###   ########.fr       */
+/*   Updated: 2024/02/27 23:26:33 by aessadik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,3 +106,4 @@ char	*ft_strdup(const char *s1)
 	str[i] = '\0';
 	return (str);
 }
+

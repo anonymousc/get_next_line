@@ -6,7 +6,7 @@
 /*   By: aessadik <aessadik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 21:30:35 by aessadik          #+#    #+#             */
-/*   Updated: 2024/02/27 16:44:38 by aessadik         ###   ########.fr       */
+/*   Updated: 2024/03/02 18:25:44 by aessadik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*ft_free(char *s)
 
 char	*get_next_line(int fd)
 {
-	char		*buffer;
+	char		*buffer[256];
 	char		*ret_l;
 	static char	*ret;
 	int			i;
@@ -70,19 +70,19 @@ char	*get_next_line(int fd)
 		return (free(ret), NULL);
 	while (i > 0)
 	{
-		buffer = (char *)malloc(BUFFER_SIZE * sizeof(char) + 1);
-		ft_freea(buffer);
+		*buffer = (char *)malloc(BUFFER_SIZE * sizeof(char) + 1);
+		ft_freea(*buffer);
 		i = read(fd, buffer, BUFFER_SIZE);
 		if (i == -1)
-			return (ft_free(ret), free(buffer), NULL);
-		buffer[i] = '\0';
-		ret = ft_strjoin(ret, buffer);
-		if (find_newline(buffer) != -1)
+			return (ft_free(ret), free(*buffer), NULL);
+		*buffer[i] = '\0';
+		ret = ft_strjoin(ret, *buffer);
+		if (find_newline(*buffer) != -1)
 		{
-			free(buffer);
+			free(*buffer);
 			break ;
 		}
-		free(buffer);
+		free(*buffer);
 	}
 	return (ret_l = get_new_line(ret), ret = set_buffer(ret, ret_l), ret_l);
 }

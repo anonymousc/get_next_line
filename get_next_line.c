@@ -6,7 +6,7 @@
 /*   By: aessadik <aessadik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 21:30:35 by aessadik          #+#    #+#             */
-/*   Updated: 2024/02/27 16:39:59 by aessadik         ###   ########.fr       */
+/*   Updated: 2024/03/08 17:18:33 by aessadik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ char	*set_buffer(char *buffer, char *line)
 {
 	int		len2;
 	char	*tmp;
-
+	
+	if(!buffer)
+		return (NULL);
 	len2 = ft_strlen(line);
 	tmp = ft_strdup(buffer + len2);
 	free(buffer);
@@ -42,7 +44,6 @@ char	*ft_freea(char *s)
 {
 	if (!s)
 	{
-		printf("Error\n");
 		s = NULL;
 		free(s);
 	}
@@ -71,7 +72,7 @@ char	*get_next_line(int fd)
 		return (free(ret), NULL);
 	while (i > 0)
 	{
-		buffer = (char *)malloc(BUFFER_SIZE * sizeof(char) + 1);
+		buffer = (char *)malloc((size_t)(BUFFER_SIZE * sizeof(char) + 1));
 		ft_freea(buffer);
 		i = read(fd, buffer, BUFFER_SIZE);
 		if (i == -1)
@@ -86,4 +87,18 @@ char	*get_next_line(int fd)
 		free(buffer);
 	}
 	return (ret_l = get_new_line(ret), ret = set_buffer(ret, ret_l), ret_l);
+}
+int main()
+{
+	int fd;
+	char *line ;
+	int i = 0;
+	fd = open("empty", O_RDONLY);
+	line = get_next_line(fd);
+	
+		printf("%s\n", line);
+		free(line);
+
+	system("leaks a.out");
+	return (0);
 }

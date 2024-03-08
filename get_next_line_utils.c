@@ -6,7 +6,7 @@
 /*   By: aessadik <aessadik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 22:09:14 by aessadik          #+#    #+#             */
-/*   Updated: 2024/02/27 16:14:25 by aessadik         ###   ########.fr       */
+/*   Updated: 2024/03/08 17:22:07 by aessadik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ char	*ft_strjoin(char *s, char *s1)
 	if (s1)
 		while (s1[i])
 			*(p++) = s1[i++];
-	if (s)
-		free(s);
+	free(s);
 	return (str);
 }
 
