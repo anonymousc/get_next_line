@@ -6,7 +6,7 @@
 /*   By: aessadik <aessadik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 21:30:35 by aessadik          #+#    #+#             */
-/*   Updated: 2024/03/08 17:18:33 by aessadik         ###   ########.fr       */
+/*   Updated: 2024/03/10 00:45:38 by aessadik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ char	*get_next_line(int fd)
 			return (ft_free(ret), free(buffer), NULL);
 		buffer[i] = '\0';
 		ret = ft_strjoin(ret, buffer);
+    	
 		if (find_newline(buffer) != -1)
 		{
 			free(buffer);
@@ -88,17 +89,21 @@ char	*get_next_line(int fd)
 	}
 	return (ret_l = get_new_line(ret), ret = set_buffer(ret, ret_l), ret_l);
 }
-int main()
-{
-	int fd;
-	char *line ;
-	int i = 0;
-	fd = open("empty", O_RDONLY);
-	line = get_next_line(fd);
-	
-		printf("%s\n", line);
-		free(line);
-
-	system("leaks a.out");
-	return (0);
-}
+ int main(int ac , char **av)
+ {
+ 	int fd;
+ 	char *line;
+ 	 fd = open(av[1], O_RDONLY);
+// 	 if (av[0])
+// 	 {
+// 	  printf("%s\n",get_next_line(0));
+// 	 }
+ 	 while ((line = get_next_line(fd)))
+ 	 {
+ 	 	printf("%s", line);
+ 	 	free(line);
+ 	 }
+	 system("leaks a.out");
+ 	 close(fd);
+ 	 return (0);
+ }
