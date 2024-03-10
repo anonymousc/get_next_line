@@ -6,7 +6,7 @@
 /*   By: aessadik <aessadik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 22:09:20 by aessadik          #+#    #+#             */
-/*   Updated: 2024/03/06 22:29:13 by aessadik         ###   ########.fr       */
+/*   Updated: 2024/03/10 02:12:31 by aessadik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,6 @@ char	*get_next_line(int fd);
 char	*ft_strrchr(char *s);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 char	*set_buffer(char *buffer, char *line);
+char	*read_line(char *ret, int fd);
+char	*ft_free(char *s);
 #endif

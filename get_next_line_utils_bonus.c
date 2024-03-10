@@ -6,7 +6,7 @@
 /*   By: aessadik <aessadik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 22:09:14 by aessadik          #+#    #+#             */
-/*   Updated: 2024/02/27 23:26:33 by aessadik         ###   ########.fr       */
+/*   Updated: 2024/03/10 02:20:14 by aessadik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,7 @@ char	*ft_strjoin(char *s, char *s1)
 		return (NULL);
 	p = (char *)malloc(ft_strlen(s) + ft_strlen(s1) + 1);
 	if (!p)
-	{
-		free(s);
-		return (NULL);
-	}
+		return (free(s), NULL);
 	p[ft_strlen(s) + ft_strlen(s1)] = '\0';
 	str = p;
 	if (s)
@@ -46,8 +43,7 @@ char	*ft_strjoin(char *s, char *s1)
 	if (s1)
 		while (s1[i])
 			*(p++) = s1[i++];
-	if (s)
-		free(s);
+	free(s);
 	return (str);
 }
 
@@ -59,7 +55,10 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	i = 0;
 	p = (char *)malloc(sizeof(char) * (len + 1));
 	if (!p)
+	{
+		free(p);
 		return (NULL);
+	}
 	while (i < len && s[start + i])
 	{
 		p[i] = s[start + i];
@@ -84,26 +83,21 @@ char	*get_new_line(char *s)
 
 char	*ft_strdup(const char *s1)
 {
-	char	*str;
+	char	*p;
 	int		i;
 
 	i = 0;
-	if (!s1)
+	p = (char *)malloc(sizeof(char) * (ft_strlen((char *)s1) + 1));
+	if (!p)
 	{
-		return (NULL);
-	}
-	str = (char *)malloc(ft_strlen((char *)s1) + 1);
-	if (!str)
-	{
-		free(str);
+		free(p);
 		return (NULL);
 	}
 	while (s1[i])
 	{
-		str[i] = s1[i];
+		p[i] = s1[i];
 		i++;
 	}
-	str[i] = '\0';
-	return (str);
+	p[i] = '\0';
+	return (p);
 }
-

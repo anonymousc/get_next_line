@@ -6,7 +6,7 @@
 /*   By: aessadik <aessadik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 22:09:14 by aessadik          #+#    #+#             */
-/*   Updated: 2024/03/08 23:30:47 by aessadik         ###   ########.fr       */
+/*   Updated: 2024/03/10 02:18:03 by aessadik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,10 @@ char	*ft_strjoin(char *s, char *s1)
 
 	i = 0;
 	if (!s && !s1)
-	{
 		return (NULL);
-	}
 	p = (char *)malloc(ft_strlen(s) + ft_strlen(s1) + 1);
 	if (!p)
-	{
-		free(s);
-		return (NULL);
-	}
+		return (free(s), NULL);
 	p[ft_strlen(s) + ft_strlen(s1)] = '\0';
 	str = p;
 	if (s)
@@ -93,25 +88,21 @@ char	*get_new_line(char *s)
 
 char	*ft_strdup(const char *s1)
 {
-	char	*str;
+	char	*p;
 	int		i;
 
 	i = 0;
-	if (!s1)
+	p = (char *)malloc(sizeof(char) * (ft_strlen((char *)s1) + 1));
+	if (!p)
 	{
-		return (NULL);
-	}
-	str = (char *)malloc(ft_strlen((char *)s1) + 1);
-	if (!str)
-	{
-		free(str);
+		free(p);
 		return (NULL);
 	}
 	while (s1[i])
 	{
-		str[i] = s1[i];
+		p[i] = s1[i];
 		i++;
 	}
-	str[i] = '\0';
-	return (str);
+	p[i] = '\0';
+	return (p);
 }
